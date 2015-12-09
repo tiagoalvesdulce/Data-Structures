@@ -10,16 +10,21 @@ template <typename T> struct Node
 };
 
 template <typename T> class LinkedList{
-private:
-	int size;
 protected:
 	Node<T> *head;
 	Node<T> *tail;
+	int size;
 public:
 	LinkedList();
 	~LinkedList();
 	void insert(T new_value, int position);
-	void remove(T value);
+	/* Removes the first occurrence of the node who have the value
+	   passed as a parameter.
+	 */
+	void remove_value(T value);
+	/* Removes the node in the position passed */
+	void clear();
+	void remove_position(int pos);
 	void print();
 	int getSize();
 	int find(T value);
@@ -31,16 +36,18 @@ template <typename T>
 LinkedList<T>::LinkedList(){
 	head = tail = NULL;
 	size = 0;
+	std::cout << "constructing list" << std::endl;
 }
 
 template <typename T>
 LinkedList<T>::~LinkedList(){
-
+	clear();
+	std::cout << "destructing list" << std::endl;
 }
 
 template <typename T>
 bool LinkedList<T>::isEmpty(){
-	if (size == 0) return true;
+	if (this->size == 0) return true;
 	else return false;
 }
 
@@ -55,19 +62,19 @@ void LinkedList<T>::insert(T new_value, int position){
 	if (isEmpty()){
 		this->head = newNode;
 		this->tail = newNode;
-		size++;
+		this->size++;
 		return;
 	}
 	if(position == 0){
 		newNode->next = this->head;
 		this->head = newNode;
-		size++;
+		this->size++;
 		return;
 	}
 	if (position == size){
 		this->tail->next = newNode;
 		this->tail = newNode;
-		size++;
+		this->size++;
 		return;
 	}
 	Node<T> *temp = head;
@@ -78,7 +85,7 @@ void LinkedList<T>::insert(T new_value, int position){
 	}
 	newNode->next = temp->next;
 	temp->next = newNode;
-	size++;	
+	this->size++;	
 }
 
 template <typename T>
@@ -108,7 +115,7 @@ int LinkedList<T>::find(T value){
 }
 
 template <typename T>
-void LinkedList<T>::remove(T value){
+void LinkedList<T>::remove_value(T value){
 	int pos = 0;
 	try{
 		pos = find(value);
@@ -116,9 +123,11 @@ void LinkedList<T>::remove(T value){
 	catch(const std::invalid_argument &ia){
 		throw std::invalid_argument ("Value not found, remove isn't possible");
 	}
+	std::cout << size-1 << std::endl; 
 	if(pos == 0){
 		Node<T> *temp = this->head;
 		head = head->next;
+		this->size--;
 		delete temp;
 		return;
 	}
@@ -127,10 +136,12 @@ void LinkedList<T>::remove(T value){
 		Node<T> *temp = this->head;
 		while(cont < pos-1){
 			temp = temp->next;
+			cont++;
 		}
 		Node<T> *aux = temp->next;
 		temp->next = aux->next;
 		tail = temp;
+		this->size--;
 		delete aux;
 		return;
 	}
@@ -142,12 +153,59 @@ void LinkedList<T>::remove(T value){
 	}
 	Node<T> *aux = temp->next;
 	temp->next = aux->next;
+	this->size--;
 	delete aux;
 }
 
+template <typename T>
+void LinkedList<T>::remove_position(int pos){
+	if (pos < 0 || pos > size-1){
+		throw std::invalid_argument("Position out of range");
+	}
+	if(pos == 0){
+		Node<T> *temp = this->head;
+		head = head->next;
+		delete temp;
+		this->size--;
+		return;
+	}
+	if(pos == size-1){
+		int cont=0;
+		Node<T> *temp = this->head;
+		while(cont < pos-1){
+			temp = temp->next;
+			cont++;
+		}
+		Node<T> *aux = temp->next;
+		temp->next = aux->next;
+		tail = temp;
+		delete aux;
+		this->size--;
+		return;
+	}
+	int cont=0;
+	Node<T> *temp = this->head;
+	while(cont < pos-1){
+		temp = temp->next;
+		cont++;
+	}
+	Node<T> *aux = temp->next;
+	temp->next = aux->next;
+	this->size--;
+	delete aux;
+}
 
-
-
-
+template <typename T>
+void LinkedList<T>::clear(){
+	Node<T> *temp = head;
+	Node<T> *aux;
+	while(!isEmpty()){
+		aux = temp;
+		temp = temp->next;
+		this->size--;
+		delete aux;	
+	}
+	head = tail = NULL;
+}
 
 #endif
