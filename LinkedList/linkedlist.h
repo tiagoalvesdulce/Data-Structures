@@ -42,7 +42,7 @@ LinkedList<T>::LinkedList(){
 template <typename T>
 LinkedList<T>::~LinkedList(){
 	clear();
-	std::cerr << "destructing list" << std::endl;
+	std::cerr << "destroying list" << std::endl;
 }
 
 template <typename T>
