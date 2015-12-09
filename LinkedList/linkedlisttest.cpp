@@ -36,5 +36,6 @@ int main(){
 	myLL.clear();
 	std::cout << "clearing ... " << std::endl;
 	std::cout << "size: " << myLL.getSize() << std::endl;
+	myLL.print();
 	return 0;
 }

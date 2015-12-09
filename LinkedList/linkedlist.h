@@ -41,7 +41,12 @@ LinkedList<T>::LinkedList(){
 
 template <typename T>
 LinkedList<T>::~LinkedList(){
-	clear();
+	Node<T> *temp = head;
+	while(temp != NULL){
+		Node<T> *aux = temp;
+		temp = temp->next;
+		delete aux;
+	}
 	std::cerr << "destroying list" << std::endl;
 }
 
@@ -198,12 +203,11 @@ void LinkedList<T>::remove_position(int pos){
 template <typename T>
 void LinkedList<T>::clear(){
 	Node<T> *temp = head;
-	Node<T> *aux;
 	while(!isEmpty()){
-		aux = temp;
+		Node<T> *aux = temp;
 		temp = temp->next;
 		this->size--;
-		delete aux;	
+		aux = NULL;
 	}
 	head = tail = NULL;
 }
