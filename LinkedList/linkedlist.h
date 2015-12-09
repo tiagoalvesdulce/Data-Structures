@@ -36,13 +36,13 @@ template <typename T>
 LinkedList<T>::LinkedList(){
 	head = tail = NULL;
 	size = 0;
-	std::cout << "constructing list" << std::endl;
+	std::cerr << "constructing list" << std::endl;
 }
 
 template <typename T>
 LinkedList<T>::~LinkedList(){
 	clear();
-	std::cout << "destructing list" << std::endl;
+	std::cerr << "destructing list" << std::endl;
 }
 
 template <typename T>
