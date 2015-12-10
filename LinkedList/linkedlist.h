@@ -29,6 +29,7 @@ public:
 	int getSize();
 	int find(T value);
 	bool isEmpty();
+	LinkedList<T>& operator=(const LinkedList<T>& ll);
 
 };
 
@@ -211,5 +212,29 @@ void LinkedList<T>::clear(){
 	}
 	head = tail = NULL;
 }
+
+template <typename T>
+LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& ll){
+	if(this != &ll){
+		Node<T> *temp = head;
+		while(temp != NULL){
+			head = head->next;
+			delete temp;
+			temp = head;
+		}
+		this->size = 0;
+		int cont=0;
+		temp = ll.head;
+
+		while(temp != NULL){
+			insert(temp->val, cont);
+			cont++;
+			temp = temp->next;
+		}
+	}
+	return (*this);
+}
+
+
 
 #endif
