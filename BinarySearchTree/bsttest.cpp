@@ -19,6 +19,9 @@ int main(){
 	else cout << "no" << endl;
 	if(mybst.find(10)) cout << "yes" << endl;
 	else cout << "no" << endl;
+	mybst.remove(5);
+	mybst.print_in_order();
+
 	cout << endl << " --- PRINT SORTED ARRAY WITH BST --- " << endl;
 	int arr[5] = {7,8,2,3,1};
 	cout << "Original array: " << endl;

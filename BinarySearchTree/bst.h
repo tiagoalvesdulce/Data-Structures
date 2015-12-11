@@ -22,8 +22,10 @@ class Bst
 public:
 	Bst();
 	~Bst();
+	Node* predecessor(Node *item);
+	Node* sucessor(Node *item);
 	void insert(int value);
-	void remove(int value); //not implemented yet
+	void remove(int value); /*STILL MISSING THE CASE WHERE THE NODE HAVE 2 CHILDS */
 	bool find(int value);
 	void print_in_order();
 	bool isEmpty();

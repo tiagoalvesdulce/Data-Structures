@@ -60,6 +60,73 @@ bool Bst::find(int value){
 	return false;
 }
 
+Node* Bst::sucessor(Node *item){
+	if(item->right != NULL){
+		item=item->right;
+		while(item->left != NULL) item=item->left;
+	}
+	cout << "sucessor is: " << item->val;
+	return item;
+}
+
+Node* Bst::predecessor(Node *item){
+	if(item->left != NULL){
+		item=item->left;
+		while(item->right != NULL) item=item->right;
+	}
+	return item;
+}
+
+/* STILL MISSING THE CASE WHERE THE NODE HAVE 2 CHILDS */
 void Bst::remove(int value){
-	/* Remove will be implemented later */
+	cout << endl;
+	cout << value << endl;
+	Node *temp = root;
+ 	Node *prev = temp;
+	while(temp != NULL){
+		if(value < temp->val) {prev = temp;temp=temp->left;}
+		else if (value > temp->val) {prev = temp;temp=temp->right;}
+		else {
+			if (temp->right == NULL && temp->left == NULL){
+				if(temp == prev->right) prev->right = NULL;
+				if(temp == prev->left) prev->left = NULL;
+				delete temp;
+				return;
+			}
+			else if(temp->right == NULL && temp->left != NULL){
+				if (temp == prev->right){
+					prev->right = temp->left;
+					temp->left = NULL;
+				}
+				else if (temp == prev->left){
+					prev->left = temp->left;
+					temp->left = NULL;
+				}
+				delete temp;
+				return;
+			}
+			else if(temp->right != NULL && temp->left == NULL){
+				if (temp == prev->right){
+					prev->right = temp->right;
+					temp->right = NULL;
+				}
+				else if (temp == prev->left){
+					prev->left = temp->right;
+					temp->right = NULL;
+				}
+				delete temp;
+				return;
+			}
+			else if(temp->right != NULL && temp->left != NULL){
+				Node *suc = sucessor(temp);
+				Node aux;
+				aux = *temp;
+				*temp = *suc;
+				*suc = aux;
+				remove(suc->val);
+				return;
+			}
+		}
+	}
+	throw invalid_argument("Value not found");
 }
